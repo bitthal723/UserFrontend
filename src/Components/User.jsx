@@ -14,10 +14,11 @@ function User() {
   const fetchMenu = async () => {
     try {
       const response = await getMenu(restId);
+      console.log(response.data);
       const menuWithQty = response.data.map((item) => ({
         ...item,
         quantity: 0,
-        tableNumber: tableNumber, // ✅ Add table number to each item
+        tableNumber: tableNumber,// ✅ Add table number to each item
       }));
       setMenu(menuWithQty);
       setInitialOrder(menuWithQty);
@@ -53,7 +54,7 @@ function User() {
 
   const getTotal = () => {
     return order.reduce(
-      (total, item) => total + item.price * item.quantity,
+      (total, item) => total + item.itemPrice * item.quantity,
       0
     );
   };
@@ -61,22 +62,16 @@ function User() {
   const onPlaceClick = async () => {
     setOrder(initialOrder);
     const orderItemsToSend = order
-    .filter(item => item.quantity > 0)
-    .map(({ itemId, itemName, quantity, tableNumber }) => ({
-      itemId,
-      itemName,
-      quantity,
-      tableNumber,
-    }));
+    .filter(item => item.quantity > 0);
     console.log(orderItemsToSend);
     const response = await placeOrder(restId, orderItemsToSend);
     console.log(response);
-    navigate("/track");
+    navigate("/track", {state : {restId, tableNumber}});
 
   };
 
   const handleTrackOrderClick = () => {
-    navigate("/track");
+    navigate("/track", {state : {restId, tableNumber}});
   };
 
   return (
@@ -106,18 +101,18 @@ function User() {
         {order.some(item => item.quantity > 0) ? (
           <>
             <p className="grand-total">
-              <strong>Grand Total:</strong> ₹{getTotal()}
+              <strong>Total:</strong> ₹{getTotal()}
             </p>
             <button className="place-order-btn" onClick={onPlaceClick}>
               Place Order
-            </button>
-            <button className="track-order-btn" onClick={handleTrackOrderClick}>
-              Track Your Order
             </button>
           </>
         ) : (
           <p className="empty-order">No items selected.</p>
         )}
+        <button className="track-order-btn" onClick={handleTrackOrderClick}>
+              Track Your Order
+            </button>
       </div>
     </div>
   );
