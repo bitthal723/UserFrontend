@@ -1,0 +1,95 @@
+.user-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background: #fff5ee;
+    border-radius: 10px;
+  }
+  
+  .user-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .user-info {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .order-box {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  .order-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .item-name-price {
+    flex-grow: 1;
+  }
+  
+  .qty-control {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .qty-count {
+    font-weight: bold;
+  }
+  
+  .status {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: white;
+  }
+  
+  .status.pending {
+    background-color: orange;
+  }
+  
+  .status.processing {
+    background-color: blue;
+  }
+  
+  .status.completed {
+    background-color: purple;
+  }
+  
+  .status.delivered {
+    background-color: green;
+  }
+  
+  .grand-total {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    padding-right: 30px;
+  }
+  
+  .track-order-btn {
+    background-color: #ff7f50;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
