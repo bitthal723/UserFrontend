@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./OrderTracking.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getOrderedItem } from "../service/OrderService";
+// import { getOrderedItem } from "../service/OrderService";
+import { getOrders } from "../FirebaseService/OrderService";
 
 
 const OrderTracking = () => {
@@ -19,9 +20,9 @@ const OrderTracking = () => {
   // );
   const fetchOrder = async () => {
       try {
-        const orderResponse = await getOrderedItem(restId, tableNumber);
-        console.log(orderResponse.data);
-        const mergedItems = mergeOrderItems(orderResponse.data);
+        const orderResponse = await getOrders(restId);
+        console.log(orderResponse);
+        const mergedItems = mergeOrderItems(orderResponse.items);
         console.log(mergedItems);
         setOrderedItems(mergedItems);
         const tempTotal = mergedItems.reduce((sum, item) => {
@@ -38,7 +39,8 @@ const OrderTracking = () => {
 
     const mergeOrderItems = (items) => {
       const merged = {};
-    
+      console.log(items);
+      
       items.forEach(item => {
         const key = `${item.tableNumber}-${item.itemId}`;
         if (!merged[key]) {

@@ -6,7 +6,7 @@ import OrderTracking from './Components/OrderTracking';
 function App() {
 
   return (
-    <Router>
+    <Router basename="/UserFrontend">
       <Routes>
         <Route path="/" element={<User />} />
         <Route path="/track" element={<OrderTracking />} />

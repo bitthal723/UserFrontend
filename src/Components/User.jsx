@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import "./User.css";
 import { useNavigate } from "react-router-dom";
-import { getMenu } from "../service/MenuService";
-import { placeOrder } from "../service/OrderService";
+// import { getMenu } from "../service/MenuService";
+// import { placeOrder } from "../service/OrderService";
+import { getMenu } from "../FirebaseService/FirebaseMenu";
+import { addItemToOrder } from "../FirebaseService/OrderService";
+
 function User() {
   const userName = "Jaa Baa";
   const tableNumber = 12;
@@ -12,10 +15,11 @@ function User() {
   const [initialOrder, setInitialOrder] = useState([]);
   
   const fetchMenu = async () => {
+    const response = await getMenu(restId);
     try {
-      const response = await getMenu(restId);
+      // const response = await getMenu(restId);
       console.log(response.data);
-      const menuWithQty = response.data.map((item) => ({
+      const menuWithQty = response['menu'].map((item) => ({
         ...item,
         quantity: 0,
         tableNumber: tableNumber,// ✅ Add table number to each item
@@ -64,8 +68,11 @@ function User() {
     const orderItemsToSend = order
     .filter(item => item.quantity > 0);
     console.log(orderItemsToSend);
-    const response = await placeOrder(restId, orderItemsToSend);
-    console.log(response);
+    addItemToOrder(restId,orderItemsToSend);
+
+
+    // const response = await placeOrder(restId, orderItemsToSend);
+    // console.log(response);
     navigate("/track", {state : {restId, tableNumber}});
 
   };
