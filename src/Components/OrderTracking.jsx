@@ -48,13 +48,27 @@ const OrderTracking = () => {
         } else {
           merged[key].quantity += item.quantity;
         }
+        console.log(merged);
       });
+      
+      
+      
     
-      return Object.values(merged);
+      return findOrdersFromTable(Object.values(merged));
     };
+   const findOrdersFromTable = (mergedItems)=>{
+        const finalOrder = [];
+        mergedItems.map(item => {
+          const key = item.itemId
+          if(item.tableNumber == tableNumber){
+            finalOrder.push(item);
+          }
+        });
+        return finalOrder;
+    }
 
   const handleShowMenu = () => {
-    navigate("/");
+    navigate(`/?restId=${restId}&tableNumber=${tableNumber}`);
   };
 
   return (
