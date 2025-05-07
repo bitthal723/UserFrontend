@@ -6,11 +6,17 @@ import { useNavigate } from "react-router-dom";
 import { getMenu } from "../FirebaseService/FirebaseMenu";
 import { addItemToOrder } from "../FirebaseService/OrderService";
 
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
+
 function User() {
+  
+  const query = useQuery();
   const userName = "Jaa Baa";
-  const tableNumber = 12;
+  const tableNumber = query.get('tableNumber');
   const restaurantName = "Atank Ka Dusra Naam Babu Bhai";
-  const restId = '88CR5HRTOK';
+  const restId = query.get('restId');
   const [menu, setMenu] = useState([]);
   const [initialOrder, setInitialOrder] = useState([]);
   
