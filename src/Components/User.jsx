@@ -3,7 +3,7 @@ import "./User.css";
 import { useNavigate, useLocation } from "react-router-dom";
 // import { getMenu } from "../service/MenuService";
 // import { placeOrder } from "../service/OrderService";
-import { getMenu } from "../FirebaseService/FirebaseMenu";
+import { addQRScanCount, getMenu } from "../FirebaseService/FirebaseMenu";
 import { addItemToOrder } from "../FirebaseService/OrderService";
 
 const useQuery = () => {
@@ -13,18 +13,35 @@ const useQuery = () => {
 function User() {
   
   const query = useQuery();
-  const userName = "Jaa Baa";
   const tableNumber = query.get('tableNumber');
-  const restaurantName = "Atank Ka Dusra Naam Babu Bhai";
+  const [restName, setRestName] = useState('');
   const restId = query.get('restId');
   const [menu, setMenu] = useState([]);
   const [initialOrder, setInitialOrder] = useState([]);
   
   const fetchMenu = async () => {
-    const response = await getMenu(restId);
+    let visitFromQR = query.get('qrFlag');
+
     try {
-      // const response = await getMenu(restId);
-      console.log(response.data);
+      const response = await getMenu(restId);
+      console.log(response['total_qr_scanned']);
+      // console.log(visitFromQR);
+            
+
+       // ✅ only runs on first visit from QR
+        //  console.log("came from qr ",response['total_qr_scanned']);
+        // await addQRScanCount(restId, response['total_qr_scanned']);
+        visitFromQR = false;
+      
+
+    
+
+
+      // const qrCountResponse = await addQRScanCount(restId, response['total_qr_scanned']);
+      
+      if(response['rest_name'] != null){
+        setRestName(response['rest_name']);
+      }
       const menuWithQty = response['menu'].map((item) => ({
         ...item,
         quantity: 0,
@@ -48,7 +65,7 @@ function User() {
   const navigate = useNavigate();
 
   const incrementQty = (index) => {
-    console.log(order);
+    // console.log(order);
     const updatedOrder = [...order];
     updatedOrder[index].quantity += 1;
     setOrder(updatedOrder);
@@ -73,12 +90,10 @@ function User() {
     setOrder(initialOrder);
     const orderItemsToSend = order
     .filter(item => item.quantity > 0);
-    console.log(orderItemsToSend);
-    addItemToOrder(restId,orderItemsToSend);
 
-
-    // const response = await placeOrder(restId, orderItemsToSend);
-    // console.log(response);
+    const response = await addItemToOrder(restId,orderItemsToSend);
+    console.log(response);
+  
     navigate("/track", {state : {restId, tableNumber}});
 
   };
@@ -89,7 +104,8 @@ function User() {
 
   return (
     <div className="user-container">
-      <h1 className="user-title">Welcome, {userName}!</h1>
+      <h1 className="user-title">Welcome to</h1>
+      <p className="user-title">{restName}</p>
       <p className="user-info">
         <strong>Table No:</strong> {tableNumber}
       </p>

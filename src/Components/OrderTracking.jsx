@@ -68,7 +68,7 @@ const OrderTracking = () => {
     }
 
   const handleShowMenu = () => {
-    navigate(`/?restId=${restId}&tableNumber=${tableNumber}`);
+    navigate(`//?restId=${restId}&tableNumber=${tableNumber}&qrFlag=${false}`);
   };
 
   return (

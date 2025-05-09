@@ -1,4 +1,4 @@
-import {  doc, getDoc   } from "firebase/firestore";
+import {  doc, getDoc, updateDoc   } from "firebase/firestore";
 import { db } from "../firebase";
 
 export const getMenu = async (restId) => {
@@ -12,3 +12,10 @@ export const getMenu = async (restId) => {
   }
 
   };
+
+  export const addQRScanCount = async (restId, prevCount) => {
+    const docRef = doc(db, "restaurants", restId );
+    await updateDoc(docRef, {
+        total_qr_scanned: (prevCount+1)
+    });
+  }
