@@ -13,11 +13,7 @@ const OrderTracking = () => {
   const restId = state?.restId;
   const tableNumber = state?.tableNumber;
   let [total, setTotal] = useState(0);
-  // const order = orders[0];
-  // const total = order.items.reduce(
-  //   (sum, item) => sum + item.quantity * item.price,
-  //   0
-  // );
+  
   const fetchOrder = async () => {
       try {
         const orderResponse = await getOrders(restId);
@@ -68,7 +64,7 @@ const OrderTracking = () => {
     }
 
   const handleShowMenu = () => {
-    navigate(`//?restId=${restId}&tableNumber=${tableNumber}&qrFlag=${false}`);
+    navigate(`//?restId=${restId}&tableNumber=${tableNumber}&qrFlag=false`);
   };
 
   return (

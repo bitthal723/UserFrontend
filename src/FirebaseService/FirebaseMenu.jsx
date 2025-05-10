@@ -15,7 +15,11 @@ export const getMenu = async (restId) => {
 
   export const addQRScanCount = async (restId, prevCount) => {
     const docRef = doc(db, "restaurants", restId );
-    await updateDoc(docRef, {
+   await updateDoc(docRef, {
         total_qr_scanned: (prevCount+1)
-    });
+    },{
+        headers: {
+          'Content-Type': 'text/plain'
+        }
+      });
   }

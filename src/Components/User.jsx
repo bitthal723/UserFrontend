@@ -25,13 +25,16 @@ function User() {
     try {
       const response = await getMenu(restId);
       console.log(response['total_qr_scanned']);
-      // console.log(visitFromQR);
+      console.log(visitFromQR);
             
 
        // ✅ only runs on first visit from QR
         //  console.log("came from qr ",response['total_qr_scanned']);
-        // await addQRScanCount(restId, response['total_qr_scanned']);
-        visitFromQR = false;
+        if(visitFromQR == 'true'){
+          await addQRScanCount(restId, response['total_qr_scanned']);
+          visitFromQR = 'false';
+        }
+        
       
 
     
@@ -40,6 +43,7 @@ function User() {
       // const qrCountResponse = await addQRScanCount(restId, response['total_qr_scanned']);
       
       if(response['rest_name'] != null){
+        
         setRestName(response['rest_name']);
       }
       const menuWithQty = response['menu'].map((item) => ({
